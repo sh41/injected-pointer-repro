@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
@@ -13,5 +14,15 @@ dependencies {
     intellijPlatform {
         intellijIdea("2026.1.5")
         testFramework(TestFrameworkType.Platform)
+    }
+}
+
+tasks.test {
+    // Without this the console shows only "AssertionFailedError at <file>:<line>", and the message says which
+    // injection failed to restore.
+    testLogging {
+        events("failed")
+        exceptionFormat = TestExceptionFormat.FULL
+        showStackTraces = false
     }
 }
